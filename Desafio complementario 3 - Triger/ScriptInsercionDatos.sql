@@ -1,5 +1,5 @@
--- INSERT TABLA EMPRESA 
-INSERT INTO empresa (idEmpresa, Nombre, Area, Subarea, `Fecha de creacion`)
+-- INSERT TABLA EMPRESA ----------------------------------------------------------
+INSERT INTO Empresa (idEmpresa, Nombre, Area, Subarea, `Fecha de creacion`)
 VALUES
     (1, 'Nestle', 'Produccion', 'Logistica', CURDATE()),
     (2, 'Cocacola', 'Ventas', 'Marketing', CURDATE()),
@@ -7,10 +7,9 @@ VALUES
     (4, 'Deloitte', '', '', CURDATE()),
     (5, 'Acme', 'Armas', 'Correcamino', CURDATE());
 
+-- INSERT TABLA USAURIOS ------------------------------------------------------------
 
--- INSERT TABLA USAURIOS
-
-INSERT INTO usuarios (idEmpresa, Nombre, Apellido, Email, Rol, Genero, Area, Cargo, `Fecha de creacion`)
+INSERT INTO Usuarios (idEmpresa, Nombre, Apellido, Email, Rol, Genero, Area, Cargo, `Fecha de creacion`)
 VALUES
     -- Empresa 1
     (1, 'Juan', 'González', 'juan.gonzalez@example.com', 'Administrador', 'Masculino', 'Ventas', 'Gerente de Ventas', NOW()),
@@ -43,18 +42,18 @@ VALUES
     (5, 'Pablo', 'Rodriguez', 'pablo.rodriguez@example.com', 'Usuario', 'Masculino', 'Armas', 'Analista de Armas', NOW()),
     (5, 'Valeria', 'Ferrer', 'valeria.ferrer@example.com', 'Usuario', 'Femenino', 'Armas', 'Analista de Armas', NOW());
 
--- INSERT TABLA NOTIFICACIONES
+-- INSERT TABLA NOTIFICACIONES --------------------------------------
 
-INSERT INTO notificaciones (idUsuarios, `Tipo de notificacion`, `Contenido de notificacion`, `Fecha de notificacion`)
+INSERT INTO Notificaciones (idUsuarios, `Tipo de notificacion`, `Contenido de notificacion`, `Fecha de notificacion`)
 SELECT idUsuarios, 'Info', '¡Bienvenido a nuestra plataforma de helpdesk!', NOW()
 FROM Usuarios;
 
-INSERT INTO notificaciones (idUsuarios, `Tipo de notificacion`, `Contenido de notificacion`, `Fecha de notificacion`)
+INSERT INTO Notificaciones (idUsuarios, `Tipo de notificacion`, `Contenido de notificacion`, `Fecha de notificacion`)
 SELECT idUsuarios, 'Actualización de Tickets', 'Se ha realizado una actualización en su solicitud de soporte.', NOW()
-FROM usuarios
+FROM Usuarios
 WHERE idUsuarios IN (1, 3, 5);
 
-INSERT INTO notificaciones (idUsuarios, `Tipo de notificacion`, `Contenido de notificacion`, `Fecha de notificacion`)
+INSERT INTO Notificaciones (idUsuarios, `Tipo de notificacion`, `Contenido de notificacion`, `Fecha de notificacion`)
 VALUES
     (2, 'Alerta', 'Mantenimiento programado el próximo fin de semana.', NOW()),
     (4, 'Alerta', 'Cambio importante en la plataforma. Por favor, revise su perfil.', NOW());
@@ -73,9 +72,9 @@ SELECT idUsuarios, 'Eventos o Anuncios Importantes', 'Participa en nuestro próx
 FROM Usuarios
 WHERE idUsuarios IN (1, 2, 5);
 
-select * from notificaciones;
+select * from Notificaciones;
 
--- INSERT TABLA ACTIVOS
+-- INSERT TABLA ACTIVOS ------------------------------------------------------------------
 
 INSERT INTO Activos (idEmpresa, idUsuarios, `Tipo de activo`, `Numero de serie`, Marca, Modelo, `Fecha de compra`, `N°Factura`, Proveedor, `Caracteristicas de HW`, Estado, `Fecha compra`)
 VALUES
@@ -109,9 +108,22 @@ VALUES
     (5, 23, 'Laptop', 'SERIAL023', 'Lenovo', 'ThinkPad', '2022-03-25', 34571, 'Tech Pro', '8 GB RAM, 256 GB SSD', 'Bueno', '2022-03-25'),
     (5, 24, 'Laptop', 'SERIAL024', 'Acer', 'Aspire', '2022-04-10', 45682, 'Tech Solutions', '12 GB RAM, 512 GB SSD', 'Bueno', '2022-04-10'),
     (5, 25, 'Laptop', 'SERIAL025', 'Asus', 'ZenBook', '2022-05-15', 56793, 'Tech Innovations', '16 GB RAM, 1 TB SSD', 'Bueno', '2022-05-15');
-select * from activos ;
+select * from Activos ;
 
--- INSERT TABLA CATEGORIAS
+-- INSERT TABLA BD_CONOCIEMIENTOS ----------------------------------------------------------------------------
+
+INSERT INTO Bd_conocimientos ( idUsuarios, `Título del Conocimiento`, `Descripción del Problema`, Solución, `Fecha de Creación`, `Última Actualización`)
+VALUES
+    (1, 'Conocimiento 1', 'Descripción del problema 1', 'Pasos para la solución 1', NOW(), NOW()),
+    (20, 'Conocimiento 2', 'Descripción del problema 2', 'Pasos para la solución 2', NOW(), NOW()),
+    (7, 'Conocimiento 3', 'Descripción del problema 3', 'Pasos para la solución 3', NOW(), NOW()),
+    (11, 'Conocimiento 3', 'Descripción del problema 4', 'Pasos para la solución 4', NOW(), NOW()),
+    (3, 'Conocimiento 3', 'Descripción del problema 5', 'Pasos para la solución 5', NOW(), NOW()),
+    (5, 'Conocimiento 3', 'Descripción del problema 6', 'Pasos para la solución 6', NOW(), NOW());
+
+select * from Bd_conocimientos;
+
+-- INSERT TABLA CATEGORIAS ------------------------------------------------------------------------------------------
 INSERT INTO Categorias (idCategoria, NombreCategoria)
 VALUES
 (1, 'Hardware'),
@@ -120,33 +132,33 @@ VALUES
 (4, 'Plataforma'),
 (5, 'Adquisiciones');
 
-select * from comentarios ;
+select * from Categorias;
 
--- INSERT TABLA TICKETS
+-- INSERT TABLA TICKETS --------------------------------------------------------------------------------
 
-INSERT INTO Tickets (idUsuarios, idCategoria1, `Fecha de creacion`, Tipo, Prioridad, Descripcion, Estado)
+INSERT INTO Tickets (idUsuarios, idCategoria, `Fecha de creacion`, Tipo, Prioridad, Descripcion, Estado, Titulo)
 VALUES
-    (1, 3, NOW(), 'Requerimiento', 'Baja', 'Descripción del ticket 1', 'Abierto'),
-    (5, 2, NOW(), 'Incidente', 'Media', 'Descripción del ticket 2', 'Pendiente Información'),
-    (7, 1, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 3', 'Trabajo en Curso'),
-    (12, 4, NOW(), 'Requerimiento', 'Media', 'Descripción del ticket 4', 'Abierto'),
-    (15, 5, NOW(), 'Incidente', 'Alta', 'Descripción del ticket 5', 'Pendiente Información'),
-    (10, 3, NOW(), 'Requerimiento', 'Baja', 'Descripción del ticket 6', 'Trabajo en Curso'),
-    (22, 2, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 7', 'Abierto'),
-    (18, 1, NOW(), 'Incidente', 'Media', 'Descripción del ticket 8', 'Pendiente Información'),
-    (8, 5, NOW(), 'Requerimiento', 'Urgente', 'Descripción del ticket 9', 'Trabajo en Curso'),
-    (25, 4, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 10', 'Abierto'),
-    (11, 3, NOW(), 'Incidente', 'Baja', 'Descripción del ticket 11', 'Pendiente Información'),
-    (14, 2, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 12', 'Trabajo en Curso'),
-    (20, 1, NOW(), 'Requerimiento', 'Media', 'Descripción del ticket 13', 'Abierto'),
-    (9, 5, NOW(), 'Incidente', 'Urgente', 'Descripción del ticket 14', 'Pendiente Información'),
-    (6, 4, NOW(), 'Requerimiento', 'Baja', 'Descripción del ticket 15', 'Trabajo en Curso');
+    (1, 3, NOW(), 'Requerimiento', 'Baja', 'Descripción del ticket 1', 'Abierto', 'Titulo Ticket1'),
+    (5, 2, NOW(), 'Incidente', 'Media', 'Descripción del ticket 2', 'Pendiente Información', 'Titulo Ticket 2'),
+    (7, 1, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 3', 'Trabajo en Curso', 'Titulo Ticket 3'),
+    (12, 4, NOW(), 'Requerimiento', 'Media', 'Descripción del ticket 4', 'Abierto', 'Titulo Ticket 4'),
+    (15, 5, NOW(), 'Incidente', 'Alta', 'Descripción del ticket 5', 'Pendiente Información', 'Titulo Ticket 5'),
+    (10, 3, NOW(), 'Requerimiento', 'Baja', 'Descripción del ticket 6', 'Trabajo en Curso', 'Titulo Ticket 6'),
+    (22, 2, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 7', 'Abierto', 'Titulo Ticket 7'),
+    (18, 1, NOW(), 'Incidente', 'Media', 'Descripción del ticket 8', 'Pendiente Información', 'Titulo Ticket 8'),
+    (8, 5, NOW(), 'Requerimiento', 'Urgente', 'Descripción del ticket 9', 'Trabajo en Curso', 'Titulo Ticket 9'),
+    (25, 4, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 10', 'Abierto', 'Titulo Ticket 10'),
+    (11, 3, NOW(), 'Incidente', 'Baja', 'Descripción del ticket 11', 'Pendiente Información', 'Titulo Ticket 11'),
+    (14, 2, NOW(), 'Requerimiento', 'Alta', 'Descripción del ticket 12', 'Trabajo en Curso', 'Titulo Ticket 12'),
+    (20, 1, NOW(), 'Requerimiento', 'Media', 'Descripción del ticket 13', 'Abierto', 'Titulo Ticket 13'),
+    (9, 5, NOW(), 'Incidente', 'Urgente', 'Descripción del ticket 14', 'Pendiente Información', 'Titulo Ticket 14'),
+    (6, 4, NOW(), 'Requerimiento', 'Baja', 'Descripción del ticket 15', 'Trabajo en Curso', 'Titulo Ticket 15');
 
-select * from tickets ;
+select * from Tickets ;
 
--- INSERT TABLA COMENTARIOS
+-- INSERT TABLA COMENTARIOS ----------------------------------------------------------------------------------------
 
-INSERT INTO Comentarios (idUsuarios, idTicket, `Fecha y hora`, Texto_Comentario)
+INSERT INTO Comentarios (idComentarios, idUsuarios, `Fecha y hora`, Texto_Comentario)
 VALUES
     (1, 1, NOW(), 'Este es un comentario de prueba para el Ticket #1.'),
     (2, 1, NOW(), 'Gracias por abrir el Ticket #1. Estaremos en contacto.'),
@@ -164,20 +176,8 @@ VALUES
     (14, 10, NOW(), 'El Ticket #7 ha sido marcado como resuelto. ¿Hay algo más en lo que podamos ayudar?'),
     (15, 8, NOW(), 'Este es un comentario de prueba para el Ticket #8.');
 
-select * from comentarios;
+select * from Comentarios;
 
--- INSERT TABLA BD_CONOCIEMIENTOS
-
-INSERT INTO bd_conocimientos ( idUsuarios, `Título del Conocimiento`, `Descripción del Problema`, Solución, `Fecha de Creación`, `Última Actualización`)
-VALUES
-    (1, 'Conocimiento 1', 'Descripción del problema 1', 'Pasos para la solución 1', NOW(), NOW()),
-    (20, 'Conocimiento 2', 'Descripción del problema 2', 'Pasos para la solución 2', NOW(), NOW()),
-    (7, 'Conocimiento 3', 'Descripción del problema 3', 'Pasos para la solución 3', NOW(), NOW()),
-    (11, 'Conocimiento 3', 'Descripción del problema 4', 'Pasos para la solución 4', NOW(), NOW()),
-    (3, 'Conocimiento 3', 'Descripción del problema 5', 'Pasos para la solución 5', NOW(), NOW()),
-    (5, 'Conocimiento 3', 'Descripción del problema 6', 'Pasos para la solución 6', NOW(), NOW());
-
-select * from bd_conocimientos;
 
 
 
