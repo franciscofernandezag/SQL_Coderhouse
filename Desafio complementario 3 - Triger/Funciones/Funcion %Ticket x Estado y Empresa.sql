@@ -1,4 +1,4 @@
-CREATE DEFINER=`root`@`localhost` FUNCTION `TicketsPorEstadoYEmpresa`(estado VARCHAR(45), empresa_nombre VARCHAR(45)) RETURNS varchar(200) CHARSET utf8mb3
+CREATE FUNCTION `TicketsPorEstadoYEmpresa`(estado VARCHAR(45), empresa_nombre VARCHAR(45)) RETURNS varchar(200)
     READS SQL DATA
     DETERMINISTIC
 BEGIN
@@ -9,17 +9,17 @@ BEGIN
 
     -- Obtiene el total de tickets en estado especificado para la empresa especificada
     SELECT COUNT(*) INTO tickets_estado
-    FROM tickets
-    INNER JOIN usuarios ON tickets.idUsuarios = usuarios.idUsuarios
-    INNER JOIN empresa ON usuarios.idEmpresa = empresa.idEmpresa
-    WHERE tickets.Estado = estado AND empresa.Nombre = empresa_nombre;
+    FROM Tickets
+    INNER JOIN Usuarios ON Tickets.idUsuarios = Usuarios.idUsuarios
+    INNER JOIN Empresa ON Usuarios.idEmpresa = Empresa.idEmpresa
+    WHERE Tickets.Estado = estado AND Empresa.Nombre = empresa_nombre;
 
     -- Obtiene el total de tickets para la empresa especificada
     SELECT COUNT(*) INTO total_tickets
-    FROM tickets
-    INNER JOIN usuarios ON tickets.idUsuarios = usuarios.idUsuarios
-    INNER JOIN empresa ON usuarios.idEmpresa = empresa.idEmpresa
-    WHERE empresa.Nombre = empresa_nombre;
+    FROM Tickets
+    INNER JOIN Usuarios ON Tickets.idUsuarios = Usuarios.idUsuarios
+    INNER JOIN Empresa ON Usuarios.idEmpresa = Empresa.idEmpresa
+    WHERE Empresa.Nombre = empresa_nombre;
 
     -- Calcula el porcentaje
     IF total_tickets > 0 THEN
